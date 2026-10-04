@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -20,6 +20,11 @@ export default function App() {
   const [status, setStatus] = useState("idle"); // idle | uploading | converting | done
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef(null);
+
+    // Wake the free server up while the visitor picks a file
+  useEffect(() => {
+    fetch(`${API_URL}/api/health`).catch(() => {});
+  }, []);
 
   const pickFile = (f) => {
     setError("");
