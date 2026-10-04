@@ -16,10 +16,15 @@ const scriptPath = path.join(backendDir, "convert.py");
 fs.mkdirSync(uploadDir, { recursive: true });
 
 const app = express();
+app.set("trust proxy", 1);
+
 const PORT = process.env.PORT || 5002;
 
 app.use(
-  cors({ origin: "*", exposedHeaders: ["Content-Disposition"] })
+  cors({
+    origin: process.env.FRONTEND_URL || "*",
+    exposedHeaders: ["Content-Disposition"],
+  })
 );
 app.use(express.json());
 // Max 10 conversions per IP every 15 minutes
